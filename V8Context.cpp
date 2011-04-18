@@ -199,7 +199,7 @@ public:
     ts.tv_sec = tv.tv_sec + me->sec_;
     ts.tv_nsec = tv.tv_usec * 1000;
 
-    if (pthread_cond_timedwait(&me->cond_, &me->mutex_, &ts) != 0 && errno == ETIMEDOUT) {
+    if (pthread_cond_timedwait(&me->cond_, &me->mutex_, &ts) == ETIMEDOUT) {
       V8::TerminateExecution();
     }
     pthread_mutex_unlock(&me->mutex_);
