@@ -236,7 +236,7 @@ public:
                   context_->make_function->Call(
                       context_->context->Global(),
                       1,
-                      &External::Wrap(this)
+                      new Local<Value>(External::Wrap(this))
                   )
               ),
               cv
