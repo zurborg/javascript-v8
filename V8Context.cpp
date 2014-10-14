@@ -680,15 +680,17 @@ V8Context::av2array(AV *av, HandleMap& seen, long ptr) {
 
 Handle<Object>
 V8Context::hv2object(HV *hv, HandleMap& seen, long ptr) {
-    I32 len;
-    char *key;
-    SV *val;
+    HE *he;
+    SV *key;
+    SV *value;
 
     hv_iterinit(hv);
     Handle<Object> object = Object::New();
     seen[ptr] = object;
-    while (val = hv_iternextsv(hv, &key, &len)) {
-        object->Set(String::New(key, len), sv2v8(val, seen));
+    while (he = hv_iternext(hv)) {
+	key = HeSVKEY_force(he);
+	value = HeVAL(he);
+        object->Set(sv2v8str(key), sv2v8(val, seen));
     }
     return object;
 }
