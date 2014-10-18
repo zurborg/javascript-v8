@@ -841,7 +841,7 @@ XS(v8method) {
 SV*
 V8Context::function2sv(Handle<Function> fn) {
     CV          *code = newXS(NULL, v8closure, __FILE__);
-    (void) new V8FunctionData(this, fn->ToObject(), (SV*)code);
+    V8ObjectData *data = new V8FunctionData(this, fn->ToObject(), (SV*)code);
     return newRV_noinc((SV*)code);
 }
 
@@ -876,7 +876,7 @@ V8Context::object2blessed(Handle<Object> obj) {
             Local<Function> fn = Local<Function>::Cast(property);
 
             CV *code = newXS(NULL, v8method, __FILE__);
-            (void) new V8FunctionData(this, fn, (SV*)code);
+            V8ObjectData *data = new V8FunctionData(this, fn, (SV*)code);
 
             GV* gv = (GV*)*hv_fetch(stash, *String::AsciiValue(name), name->Length(), TRUE);
             gv_init(gv, stash, *String::AsciiValue(name), name->Length(), GV_ADDMULTI); /* vivify */
