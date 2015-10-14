@@ -18,7 +18,7 @@ for (1..200000) {
 
 SKIP: {
     skip "no ps", 1 unless check_ps();
-    ok get_rss() < 50_000, 'functions are released';
+    cmp_ok get_rss(), '<', 50_000, 'functions are released';
 }
 
 done_testing;
