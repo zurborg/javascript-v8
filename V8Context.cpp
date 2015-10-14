@@ -249,10 +249,6 @@ public:
         delete thisWrapped;
     }
 
-    ~PerlFunctionData() {
-        delete thisWrapped;
-    }
-
     static Handle<Value> v8invoke(const Arguments& args) {
         PerlFunctionData* data = static_cast<PerlFunctionData*>(External::Unwrap(args[0]));
         return data->invoke(args);
